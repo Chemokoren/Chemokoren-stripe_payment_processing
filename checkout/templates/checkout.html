@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block script %}
+var stripe = Stripe('pk_test_3Kq8T6jOH3fHYxxzJ8E3nQ5e00FIsaP5pG');
+{% endblock %}
+
+{% block jquery %}
+$(function() {
+  var $form = $('#payment-form');
+  $form.submit(function(event) {
+    // Disable the submit button to prevent repeated clicks:
+    $form.find('.submit').prop('disabled', true);
+
+    // Request a token from Stripe:
+    Stripe.card.createToken($form, stripeResponseHandler);
+
+    // Prevent the form from being submitted:
+    return false;
+  });
+});
+
+{% endblock %}
+
+{% block content %}
+=
+<div class='row'>
+<div class="col-sm-6 col-sm-offset-3">
+
+<form  class="form" action="" method="post" id="payment-form">
+	{% csrf_token %}
+  <div class="form-row inline">
+    <div class="col">
+      <label for="name">
+        Name
+      </label>
+      <input id="name" name="name" placeholder="Jenny Rosen" required>
+    </div>
+    <div class="col">
+      <label for="email">
+        Email Address
+      </label>
+      <input id="email" name="email" type="email" placeholder="jenny.rosen@example.com" required>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <label for="iban-element">
+      IBAN
+    </label>
+    <div id="iban-element">
+      <!-- A Stripe Element will be inserted here. -->
+    </div>
+  </div>
+  <div id="bank-name"></div>
+
+  <button>Submit Payment</button>
+
+{% endblock %}
