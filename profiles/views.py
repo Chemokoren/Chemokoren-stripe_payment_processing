@@ -2,12 +2,13 @@ from django.shortcuts import render
 
 # Create your views here.
 def home(request):
-	context =locals()
+	context ={}
 	template ='home.html'
 	return render(request,template,context)
 
 # About Page.
 def about(request):
-	context =locals()
+	context ={}
+	# context =locals()
 	template ='about.html'
 	return render(request,template,context)
